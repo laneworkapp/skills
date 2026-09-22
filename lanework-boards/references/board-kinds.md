@@ -62,3 +62,7 @@ One card per value that exists whether or not anyone is working on it: a listing
 Optional beside those five, for the release steps around the values rather than the values themselves: `Checklist` 6144, `Active` 7168, `Done` 8192. A task card moves through those once and is done, unlike a datapoint card, which never leaves. Mark the difference with a label kind so the two read apart on the board.
 
 Lanes on this kind of board are worth grouping: `group: {by: component, direction: descending}` on Filed and Pushed sections the values by whatever scope they belong to.
+
+## Grill board
+
+A design interview: one question per card, the owner's ruling written into the card, the facts and the design tree kept beside them. Its lane set (Brief, Facts, Asked, Settled, Parked) and templates live with the skill that runs it, `grill-me`, in its `references/board.md`.
