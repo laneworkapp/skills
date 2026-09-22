@@ -37,7 +37,7 @@ A design interview on <topic>, one question per card. The agent asks in rounds; 
 
 ## How this board works
 
-- **The question card's body is the ask.** It is the one place the owner is asked anything on this board. Comments on a question card are records only and never mention the owner's handle; the `waiting` key is the bell.
+- **The body holds the question; the ask comment is where it is answered.** Every question card carries one ask in its thread, the handle on its first line, restating the question, its options and the recommendation. Reply to that comment. No other comment on the card mentions the handle.
 - **Answer anywhere.** A comment on the card, or a reply in chat. The agent records a chat answer as a comment quoting it, then writes the ruling into the body under `## Ruling` and moves the card.
 - **A ruling is the owner's words**, dated. "As recommended" is a ruling. A deferral or a refusal is a ruling too, and parks the card with the reason.
 - **One question, one decision.** A round is every question whose prerequisites are settled. Questions number globally in the order asked; the round is the `Round` label.
@@ -117,7 +117,7 @@ kind: card
 title: "Q7: Edition placement"
 order: <bottom of Asked>
 labels: [{text: "Round 2", kind: {type: round, text: Round}}]
-waiting: {for: <owner handle from the guide>, since: <now>, comment: <founding comment uuid>}
+waiting: {for: <owner handle from the guide>, since: <now>, comment: <ask comment uuid>}
 created:  {at: <now>, by: {name: claude, kind: agent, model: <model>}}
 modified: {at: <now>, by: {name: claude, kind: agent, model: <model>}}
 ---
@@ -151,6 +151,27 @@ modified: {at: <now>, by: {name: claude, kind: agent, model: <model>}}
 **On the frontier because Q1 settled the archive's standing and the editions fact is in.** Nothing else hangs on this except the packaging section of the write-up.
 ```
 
+Then the ask, one second later, the last comment on the card when it is filed. It is the pitlane ask shape (`pitlane/examples/ask.md`, linted with `pitlane/scripts/lint-ask.sh`): the handle on the first line, the question in one sentence, the options as one-liners, the recommendation, the default if unanswered, and `Context: body.` The card's `waiting.comment` names this comment's uuid.
+
+```markdown
+---
+schema: 1
+kind: comment
+created:  {at: <now + 1s>, by: {name: claude, kind: agent, model: <model>}}
+modified: {at: <now + 1s>, by: {name: claude, kind: agent, model: <model>}}
+---
+@rzen Which edition does tracker sync belong to?
+
+Options:
+- A: the one free Mac app
+- B: the seed of Pro or Teams, gated when those return
+- C: undecided, design edition-agnostic and record the reopening in the editions doc
+
+Recommended: C.
+If no answer: C stands when the round closes.
+Context: body.
+```
+
 ## Recording a ruling
 
 Whether the owner answered in chat or on the card, the body gains one section at the end, and the card moves. Never edit the question, the options or the recommendation; a reader must see what was asked.
@@ -161,13 +182,13 @@ Whether the owner answered in chat or on the card, the body gains one section at
 **2026-09-22** — C, as recommended. "Design it edition-agnostic; I'll note in the editions doc that Teams placement is reopened."
 ```
 
-When the answer came in chat, it is first posted to the thread as a record, in reply to the founding comment, so the board holds the owner's words and not only the agent's reading of them:
+When the answer came in chat, it is first posted to the thread as a record, in reply to the ask, so the board holds the owner's words and not only the agent's reading of them:
 
 ```markdown
 ---
 schema: 1
 kind: comment
-in-reply-to: <founding comment uuid>
+in-reply-to: <ask comment uuid>
 created:  {at: <now>, by: {name: claude, kind: agent, model: <model>}}
 modified: {at: <now>, by: {name: claude, kind: agent, model: <model>}}
 ---

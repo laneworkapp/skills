@@ -39,7 +39,7 @@ Write the **Topic card** (the scope in one paragraph, and what a shared understa
 
 ### 2. Ask a round
 
-Compute the frontier. For every question in it, file one card into Asked with `scripts/file-question.sh`, or by hand to the same template: the question in the body above the first `##`, the options under `## Options`, your recommendation under `## Recommended`, and the settled cards it hangs off under `## Depends on`, each a `lanework://` link. Questions number globally and in order asked, `Q1`, `Q2`, … across every round, so the chat and the board agree; the round is a label. Each card arrives with a founding comment saying why it is on the frontier now, and a `waiting` key pointing at that comment, so the lane header counts what the owner owes.
+Compute the frontier. For every question in it, file one card into Asked with `scripts/file-question.sh`, or by hand to the same template: the question in the body above the first `##`, the options under `## Options`, your recommendation under `## Recommended`, and the settled cards it hangs off under `## Depends on`, each a `lanework://` link. Questions number globally and in order asked, `Q1`, `Q2`, … across every round, so the chat and the board agree; the round is a label. Each card arrives with two comments: a founding record saying why it is on the frontier now, then the **ask**, which carries the owner's handle and restates the question with its options and the recommendation in under 80 words, so the owner can answer from the thread without opening the body. The card's `waiting` key points at the ask, so the lane header counts what the owner owes.
 
 Then post the same round in chat, because the owner may be at the terminal, in the interview format with each question's title linking its card:
 
@@ -55,7 +55,7 @@ A question whose answer depends on another question still open in the round belo
 
 Answers arrive two ways and are recorded the same way:
 
-- **In chat.** Post a record comment on the card quoting the owner's answer verbatim, in reply to the founding comment, then write the ruling into the body.
+- **In chat.** Post a record comment on the card quoting the owner's answer verbatim, in reply to the ask, then write the ruling into the body.
 - **On the card.** The owner comments in the app; the app clears `waiting`. Re-read the whole thread, then write the ruling into the body.
 
 The ruling goes in the body under `## Ruling`, dated, in the owner's words, one or two sentences. The recommendation stays above it; a reader should see what was proposed and what was decided. Then move the card to the bottom of Settled. An answer that defers or declines the question moves the card to Parked with the reason as its ruling.
@@ -82,7 +82,7 @@ If the owner wants to answer on the board while the session waits, the **pitwall
 
 The pitlane skill's `references/writing.md` governs every comment here. The specific rules of a grill board:
 
-- **The question card's body is the ask.** It is the one place the owner is asked something, and it is not a comment; so no comment on a question card mentions the owner's handle. The `waiting` key is the bell.
+- **The body holds the question in full; the ask comment is where it is answered.** The owner reads and replies in the thread, so every question card carries exactly one ask, the last comment when it is filed, with the handle on its first line. No other comment on the card mentions the handle. The owner ruled this on the first grill board (2026-09-22): a question that lives only in the body has nowhere to be answered.
 - **A ruling is the owner's words.** Not a paraphrase, not the recommendation restated as if accepted. When the owner said "yes", the ruling is the recommendation, marked as accepted as recommended.
 - **One question per card, one decision per question.** A question with two decisions in it is two cards.
 - **Facts are cited, never asserted.** A Facts card names its source, attaches the report, and a question that leans on it links it.
