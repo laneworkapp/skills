@@ -41,7 +41,7 @@ STAGE=$(mktemp -d "${TMPDIR:-/tmp}/grill-settle.XXXXXX"); trap 'rm -rf "$STAGE"'
 CARD=$(ls -d "$BOARD"/*/"$CID" 2>/dev/null | head -1)
 [ -n "$CARD" ] && [ -f "$CARD/index.md" ] || { echo "no card $CID on the board" >&2; exit 1; }
 NOW=$(date -u +%FT%TZ)
-MAXO=$(for f in "$DEST"/*/index.md; do [ -f "$f" ] && fm_val "$f" order; done 2>/dev/null | grep -E '^[0-9]+$' | sort -n | tail -1)
+MAXO=$( { for f in "$DEST"/*/index.md; do [ -f "$f" ] && fm_val "$f" order; done; true; } 2>/dev/null | { grep -E '^-?[0-9]+$' || true; } | sort -n | tail -1)
 ORDER=$(( ${MAXO:-0} + 1024 ))
 awk -v o="order: $ORDER" -v m="modified: {at: $NOW, by: $BY}" '
   /^---[ \t]*$/ {n++}
