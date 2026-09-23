@@ -2,7 +2,7 @@
 # file-question.sh: file a question card into a grill board's Asked lane.
 # usage: file-question.sh <board>.lanework "<title without the Q-number>" \
 #          --round <n> --body <file> [--ask <file>] [--depends <lanework-link>...] \
-#          [--why <text>] [--model <model>] [--name <name>]
+#          [--why <text>] [--model <model>] [--name <name>] [--session <text>]
 # Mints the next global Q number by scanning every card title matching
 # `^"?Q([0-9]+):` across every lane (.trash excluded), files it at the
 # bottom of Asked with two comments, one second apart: a founding record
@@ -34,7 +34,7 @@ TITLE="${2:?usage: file-question.sh <board> <title> --round <n> --body <file> [.
 shift 2
 
 ROUND=""; BODY_FILE=""; ASK_FILE=""; WHY="**On the frontier now.**"
-MODEL="${CLAUDE_MODEL:-unknown}"; NAME="claude"
+MODEL="${CLAUDE_MODEL:-unknown}"; NAME="claude"; SESSION=""
 DEPENDS=()
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -45,6 +45,7 @@ while [ $# -gt 0 ]; do
     --why)     WHY="${2:?--why needs text}"; shift 2 ;;
     --model)   MODEL="${2:?--model needs a value}"; shift 2 ;;
     --name)    NAME="${2:?--name needs a value}"; shift 2 ;;
+    --session) SESSION="${2:?--session needs a value}"; shift 2 ;;
     *) echo "file-question.sh: unknown argument: $1" >&2; exit 1 ;;
   esac
 done
@@ -165,7 +166,7 @@ fi
 NOW=$(date -u +%FT%TZ)
 NOW_PLUS1=$(date -u -v+1S +%FT%TZ)
 NOW_PLUS2=$(date -u -v+2S +%FT%TZ)
-BY="{name: $NAME, kind: agent, model: $MODEL}"
+if [ -n "$SESSION" ]; then BY="{name: $NAME, kind: agent, model: $MODEL, session: \"$SESSION\"}"; else BY="{name: $NAME, kind: agent, model: $MODEL}"; fi
 CARD_ID=$(uuidgen | tr 'A-Z' 'a-z')
 FOUND_ID=$(uuidgen | tr 'A-Z' 'a-z')
 ASK_ID=$(uuidgen | tr 'A-Z' 'a-z')
