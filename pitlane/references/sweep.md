@@ -79,8 +79,14 @@ call. Route by the global model policy:
 Every farmed task's prompt must carry: the card's path, an instruction to
 read the board's CLAUDE.md + index.md + the card's full thread before
 acting, the identity to stamp (`by: {name: <role>, kind: agent, model:
-<tier>}`), and the requirement to journal plan → decisions → verification
-evidence on the card's thread.
+<tier>}`), the requirement to journal plan → decisions → verification
+evidence on the card's thread, and the comment rule from `writing.md`
+spelled out, since a farmed agent without a role page never reads it:
+records never mention the human; a question for the human is a separate
+ask comment in the `examples/ask.md` shape, posted a second after the
+record and linted with `scripts/lint-ask.sh <file> <board>` before the
+`mv` (in a lead/fixer cycle it goes to the lead instead). A shaper is
+the usual offender: it ends a long record with the question.
 
 Multi-agent orchestration at Workflow-tool scale needs the user's explicit
 opt-in; a requested sweep that farms a handful of Agent-tool subagents
